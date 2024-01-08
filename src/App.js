@@ -14,9 +14,6 @@ const App = () => {
         const sortedProducts = await fetchData();
         setData(sortedProducts);
         setProducts(Object.values(data.products));
-        var object = [...products];
-        object.sort((a,b)=> +b.popularity - +a.popularity);
-        setProducts(object);
       } catch (error) {
         // Handle error if needed
         console.log("Error fetching values");
