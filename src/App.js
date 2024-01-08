@@ -6,7 +6,7 @@ import { fetchData } from './data/data';
 const App = () => {
   const [data, setData] = useState({});
   const [products, setProducts] = useState([]);
-  // const [sortedProducts, setSortedProducts] = useState([]);
+  const [sortedProducts, setSortedProducts] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -14,6 +14,7 @@ const App = () => {
         const sortedProducts = await fetchData();
         setData(sortedProducts);
         setProducts(Object.values(data.products));
+        setSortedProducts(products.sort((a,b)=>+b.popularity - +a.popularity));
       } catch (error) {
         // Handle error if needed
         console.log("Error fetching values");
@@ -35,7 +36,7 @@ const App = () => {
           <th>Price</th>
           <th>Popularity</th>
         </tr>
-        {products.map(product =>
+        {sortedProducts.map(product =>
           <tr>
             <td>{product.subcategory}</td>
             <td>{product.title}</td>
