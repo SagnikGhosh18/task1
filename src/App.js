@@ -1,25 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import "./App.css";
+import React, { useState, useEffect } from 'react';
+import { fetchData } from './data/data';
 
-function App() {
+const App = () => {
+  const [data, setData] = useState({});
+  const [products, setProducts] = useState([]);
+  // const [sortedProducts, setSortedProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const sortedProducts = await fetchData();
+        setData(sortedProducts);
+        setProducts(Object.values(data.products));
+      } catch (error) {
+        // Handle error if needed
+        console.log("Error fetching values");
+      }
+    };
+
+    fetchProducts();
+  }, [data]);
+
+  console.log(data);
+  console.log(products);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Product List</h1>
+      <table id="customers">
+        <tr>
+          <th>Subcategory</th>
+          <th>Title</th>
+          <th>Price</th>
+          <th>Popularity</th>
+        </tr>
+        {products.map(product =>
+          <tr>
+            <td>{product.subcategory}</td>
+            <td>{product.title}</td>
+            <td>{product.price}</td>
+            <td>{product.popularity}</td>
+          </tr>
+        )}
+      </table>
     </div>
   );
-}
+};
 
 export default App;
